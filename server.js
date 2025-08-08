@@ -2,7 +2,8 @@ const express = require('express');
 const { getQrCode } = require('./qrStorage');
 
 const app = express();
-const port = 3000; // ou qualquer porta que você preferir
+const port = process.env.PORT || 3000;
+ // ou qualquer porta que você preferir
 
 app.get('/api/qr', (req, res) => {
   const qr = getQrCode();
