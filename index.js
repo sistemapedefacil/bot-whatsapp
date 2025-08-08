@@ -62,7 +62,7 @@ async function registrarCliente(session_id, numero_bot) {
   }
 }
 
-// Iniciar sessão do WhatsApp
+// Iniciar sessão do WhatsApp com configuração Puppeteer para Render
 create({
   session: sessionName,
   catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
@@ -77,9 +77,22 @@ create({
   },
   mkdirFolderToken: true,
   folderNameToken: './tokens',
+  puppeteerOptions: {
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process',
+      '--disable-gpu'
+    ],
+    executablePath: '/usr/bin/chromium-browser'  // caminho típico no Render, troque para '/usr/bin/chromium' se não funcionar
+  }
 })
-  .then((client) => start(client))
-  .catch((error) => console.error('❌ Erro ao iniciar o cliente:', error));
+.then((client) => start(client))
+.catch((error) => console.error('❌ Erro ao iniciar o cliente:', error));
 
 function start(client) {
   console.log('🤖 Bot iniciado.');
