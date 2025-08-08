@@ -1,0 +1,6 @@
+2025/08/07-04:18:21.228 2084 Reusing MANIFEST C:\Users\Mauricio\Desktop\bot-whatsapp-multitenant\tokens\teste\Default\Local Storage\leveldb/MANIFEST-000001
+2025/08/07-04:18:21.241 2084 Recovering log #10
+2025/08/07-04:18:21.259 2084 Reusing old log C:\Users\Mauricio\Desktop\bot-whatsapp-multitenant\tokens\teste\Default\Local Storage\leveldb/000010.log 
+2025/08/07-05:01:21.619 4cc8 Level-0 table #14: started
+2025/08/07-05:01:21.632 4cc8 Level-0 table #14: 12627 bytes OK
+2025/08/07-05:01:21.638 4cc8 Delete type=0 #10
