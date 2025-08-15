@@ -20,7 +20,7 @@ function salvarQrCode(base64Qr) {
   console.log('✅ QR Code salvo em:', qrFilePath);
 }
 
-// Função para registrar cliente no Supabase (verificando se já existe, atualizando se precisar)
+// Função para registrar cliente no Supabase
 async function registrarCliente(session_id, numero_bot) {
   try {
     const { data: existente, error } = await supabase
@@ -65,19 +65,20 @@ async function registrarCliente(session_id, numero_bot) {
 // Iniciar sessão do WhatsApp com configuração Puppeteer para Render
 create({
   session: sessionName,
-  catchQR: (base64Qr, asciiQR, attempts, urlCode) => {
+  catchQR: (base64Qr, asciiQR) => {
     console.log('📲 Escaneie o QR Code abaixo para conectar:');
     console.log(asciiQR);
 
     salvarQrCode(base64Qr);  // salva no arquivo
     setQrCode(base64Qr);     // salva em memória para API ler
   },
-  statusFind: (statusSession, session) => {
+  statusFind: (statusSession) => {
     console.log(`🟢 Status da sessão: ${statusSession}`);
   },
   mkdirFolderToken: true,
   folderNameToken: './tokens',
   puppeteerOptions: {
+    headless: true,
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
@@ -88,11 +89,13 @@ create({
       '--single-process',
       '--disable-gpu'
     ],
-    executablePath: '/usr/bin/chromium-browser'  // caminho típico no Render, troque para '/usr/bin/chromium' se não funcionar
+    executablePath:
+      process.env.PUPPETEER_EXECUTABLE_PATH ||
+      '/opt/render/project/.cache/puppeteer/chrome/linux-*/chrome-linux/chrome'
   }
 })
-.then((client) => start(client))
-.catch((error) => console.error('❌ Erro ao iniciar o cliente:', error));
+  .then((client) => start(client))
+  .catch((error) => console.error('❌ Erro ao iniciar o cliente:', error));
 
 function start(client) {
   console.log('🤖 Bot iniciado.');
